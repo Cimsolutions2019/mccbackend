@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    @Query("SELECT NEW nl.cimsolutions.mccbackend.model.VoyagerTempResponse(date_trunc('hour', l.time) as time, avg(t.value)" +
+    @Query("SELECT NEW nl.cimsolutions.mccbackend.model.VoyagerTempResponse(date_trunc('hour', l.time) as time, avg(t.value))" +
             "FROM Location l " +
             "INNER JOIN l.temperature t " +
             "WHERE voyager_id = :id GROUP BY 1 ORDER BY 1")
