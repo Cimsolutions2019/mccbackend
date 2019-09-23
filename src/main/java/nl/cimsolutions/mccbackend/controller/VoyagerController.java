@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/voyagers")
+@CrossOrigin
 public class VoyagerController {
 
     @Autowired

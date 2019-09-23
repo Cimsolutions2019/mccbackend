@@ -27,7 +27,6 @@ public class KnmiCollector {
 
     DataSource dataSource;
 
-    @Bean
     public void collectData() {
         final String uri = "https://meteoserver.nl/api/historie.php?locatie=WIJK_AAN_ZEE&dag=20190901&key=ae7008ea6f";
         this.dataSource = new DataSource("KNMI", uri);

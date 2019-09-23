@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/datasource")
+@CrossOrigin
 public class DataSourceController {
 
     @Autowired
