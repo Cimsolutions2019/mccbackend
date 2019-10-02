@@ -53,7 +53,6 @@ public class Voyager {
 
     public Voyager() {}
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
@@ -86,7 +85,6 @@ public class Voyager {
         this.voyagerLocation = voyagerLocation;
     }
 
-    @JsonIgnore
     public Boolean getActive() {
         return active;
     }
@@ -95,7 +93,6 @@ public class Voyager {
         this.active = active;
     }
 
-    @JsonIgnore
     public Boolean getInResearch() {
         return inResearch;
     }
