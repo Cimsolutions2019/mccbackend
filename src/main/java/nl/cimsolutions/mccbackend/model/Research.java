@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "research")
-public class Research {
+public class Research extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Research {
     @Column(columnDefinition = "text")
     private String description;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name="research_voyager",
@@ -36,7 +36,7 @@ public class Research {
             )
     private Set<Voyager> voyagers = new HashSet<>();
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="research_id")
     private List<Location> locations = new ArrayList<>();
@@ -96,5 +96,7 @@ public class Research {
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
+
+
 }
 

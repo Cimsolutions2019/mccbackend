@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/research")
@@ -35,9 +36,10 @@ public class ResearchController {
         return researchRepository.findAll();
     }
 
-    @GetMapping("/{researchId}/voyager/{voyagerId}")
-    public List<Location> getVoyager(@PathVariable Long researchId, @PathVariable Long voyagerId) {
-        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId);
+    @GetMapping("/{researchId}/voyagers}")
+    public Set<Voyager> getVoyager(@PathVariable Long researchId) {
+        Optional<Research> research = researchRepository.findById(researchId);
+        return research.get().getVoyagers();
     }
 
     @PostMapping("")

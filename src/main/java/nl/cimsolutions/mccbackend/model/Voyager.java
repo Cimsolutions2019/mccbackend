@@ -13,7 +13,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "voyagers")
-public class Voyager {
+public class Voyager extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,20 +35,14 @@ public class Voyager {
     @JoinColumn(name="voyager_id")
     private List<Location> locations = new ArrayList<>();
 
-    @NotBlank
-    private String voyagerLocation;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean active = false;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean active;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean inResearch = false;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean inResearch;
-
-    public Voyager(String name, String voyagerLocation) {
+    public Voyager(String name) {
         this.name = name;
-        this.voyagerLocation = voyagerLocation;
-        this.active = false;
-        this.inResearch = false;
     }
 
     public Voyager() {}
@@ -75,14 +69,6 @@ public class Voyager {
 
     public void addLocation(Location location) {
         this.locations.add(location);
-    }
-
-    public String getVoyagerLocation() {
-        return voyagerLocation;
-    }
-
-    public void setVoyagerLocation(String voyagerLocation) {
-        this.voyagerLocation = voyagerLocation;
     }
 
     public Boolean getActive() {
