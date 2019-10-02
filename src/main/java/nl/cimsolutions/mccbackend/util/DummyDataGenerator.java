@@ -32,7 +32,7 @@ public class DummyDataGenerator {
     public DummyDataGenerator(VoyagerRepository voyagerRepository, LocationRepository locationRepository) throws ParseException, IOException {
         this.voyagerRepository = voyagerRepository;
         this.locationRepository = locationRepository;
-        this.voyager = new Voyager("Apollo", "Wijk aan Zee");
+        this.voyager = new Voyager("Apollo");
         startGenerator();
     }
 
