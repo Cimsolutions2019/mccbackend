@@ -47,16 +47,16 @@ public class Voyager {
     public Voyager(String name, String voyagerLocation) {
         this.name = name;
         this.voyagerLocation = voyagerLocation;
-        this.active = true;
-        this.inResearch = true;
+        this.active = false;
+        this.inResearch = false;
     }
 
     public Voyager() {}
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }
-
 
     public String getName() {
         return name;
@@ -86,6 +86,7 @@ public class Voyager {
         this.voyagerLocation = voyagerLocation;
     }
 
+    @JsonIgnore
     public Boolean getActive() {
         return active;
     }
@@ -94,6 +95,7 @@ public class Voyager {
         this.active = active;
     }
 
+    @JsonIgnore
     public Boolean getInResearch() {
         return inResearch;
     }
