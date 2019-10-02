@@ -1,14 +1,12 @@
 package nl.cimsolutions.mccbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "research")
@@ -26,6 +24,18 @@ public class Research extends AuditModel {
 
     @Column(columnDefinition = "text")
     private String description;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
+    private Date startDate;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
+    private Date endDate;
 
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
@@ -79,6 +89,22 @@ public class Research extends AuditModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Set<Voyager> getVoyagers() {
