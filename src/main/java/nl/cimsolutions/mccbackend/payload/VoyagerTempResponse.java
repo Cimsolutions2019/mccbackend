@@ -1,4 +1,4 @@
-package nl.cimsolutions.mccbackend.model;
+package nl.cimsolutions.mccbackend.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

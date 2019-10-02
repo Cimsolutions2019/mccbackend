@@ -1,13 +1,13 @@
 package nl.cimsolutions.mccbackend.repository;
 
-import nl.cimsolutions.mccbackend.model.Voyager;
+import nl.cimsolutions.mccbackend.model.Location;
+import nl.cimsolutions.mccbackend.model.Research;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.OrderBy;
 import java.util.List;
 
 @Repository
-public interface VoyagerRepository extends JpaRepository<Voyager, Long> {
+public interface ResearchRepository extends JpaRepository<Research, Long> {
 
 }

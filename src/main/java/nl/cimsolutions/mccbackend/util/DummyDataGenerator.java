@@ -23,21 +23,21 @@ import java.time.LocalTime;
 @Transactional
 public class DummyDataGenerator {
 
-    @Autowired
     VoyagerRepository voyagerRepository;
 
-    @Autowired
     LocationRepository locationRepository;
 
     Voyager voyager;
 
-    public DummyDataGenerator() throws ParseException, IOException {
+    public DummyDataGenerator(VoyagerRepository voyagerRepository, LocationRepository locationRepository) throws ParseException, IOException {
+        this.voyagerRepository = voyagerRepository;
+        this.locationRepository = locationRepository;
         this.voyager = new Voyager("Apollo", "Wijk aan Zee");
         startGenerator();
     }
 
     public void startGenerator() throws IOException, ParseException {
-        List<String> knmiData = readFile("C:\\Users\\M.robert\\Documents\\mccbackend\\src\\main\\java\\nl\\cimsolutions\\mccbackend\\util\\KNMI_20190917_hourly.txt");
+        List<String> knmiData = readFile("C:\\Users\\M.robert\\Documents\\mccbackend\\src\\main\\resources\\KNMI_20190917_hourly.txt");
 
         double lon = 4.603;
         double lat = 52.506;
@@ -47,7 +47,7 @@ public class DummyDataGenerator {
             for(int k = 0;k<result.length;k++) {
                 result[k] = result[k].replaceAll("\\s+","");
             }
-            int knmiTemp = Integer.parseInt(result[3]);
+            int knmiTemp = Integer.parseInt(result[3]) + (int)(Math.random() * 11) - 5;
 
             LocalTime time;
             LocalDate date;
@@ -64,15 +64,15 @@ public class DummyDataGenerator {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
             current = current.minusHours(1);
             current = current.plusMinutes(1);
-            dataGenerator(dtf, current,knmiTemp,lon,lat);
+                        dataGenerator(dtf, current, knmiTemp, lon, lat);
         }
     }
 
     public void dataGenerator( DateTimeFormatter dtf, LocalDateTime KNMITime, int knmiTemp, double lon, double lat) throws IOException, ParseException {
         for(int i = 0;i<60;i++) {
             String date = dtf.format(KNMITime.plusMinutes(i));
-            Date date1 =new SimpleDateFormat("yyyyMMddHHmm").parse(date);
-            int temp = (int)(Math.random() * 11) - 5;
+            Date date1 = new SimpleDateFormat("yyyyMMddHHmm").parse(date);
+            int temp = (int)(Math.random() * 21) - 10;
             String data = date + ",\"Voyager\":\"1\",\"LON\":" + lon + ",\"LAT\":" + lat + ",\"Temp\":" + (knmiTemp+temp) +"\n";
             saveData(date1, lon, lat, knmiTemp+temp);
         }

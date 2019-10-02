@@ -1,19 +1,18 @@
 package nl.cimsolutions.mccbackend.controller;
 
-import nl.cimsolutions.mccbackend.model.Humidity;
-import nl.cimsolutions.mccbackend.model.Location;
+import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
 import nl.cimsolutions.mccbackend.model.Voyager;
-import nl.cimsolutions.mccbackend.model.VoyagerTempResponse;
+import nl.cimsolutions.mccbackend.payload.MeasurementResponse;
+import nl.cimsolutions.mccbackend.payload.VoyagerTempResponse;
+import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
 import nl.cimsolutions.mccbackend.repository.LocationRepository;
 import nl.cimsolutions.mccbackend.repository.VoyagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -28,13 +27,20 @@ public class VoyagerController {
     private LocationRepository locationRepository;
 
     @GetMapping("")
-    public Page<Voyager> getVoyagers(Pageable pageable) {
-        return voyagerRepository.findAll(pageable);
+    public List<Voyager> getVoyagers() {
+        return voyagerRepository.findAll();
     }
 
-    @GetMapping("/{voyagerId}")
-    public Optional<Voyager> getVoyager(Pageable pageable, @PathVariable Long voyagerId) {
-        return voyagerRepository.findById(voyagerId);
+    @GetMapping("/Sensors")
+    public VoyagerSensors[] getAllVoyagerSensors() {
+        VoyagerSensors[] allVoyagerSensors = VoyagerSensors.values();
+        return allVoyagerSensors;
+    }
+
+    //sprint 1 demo
+    @GetMapping("/{voyagerId}/temperature")
+    public List<VoyagerTempResponse> getTemperaturePerHour(@PathVariable Long voyagerId) {
+        return locationRepository.avgTempPerHour(voyagerId);
     }
 
     @PostMapping("")
@@ -42,9 +48,13 @@ public class VoyagerController {
         return voyagerRepository.save(voyager);
     }
 
-    @GetMapping("/{voyagerId}/temperature")
-    public List<VoyagerTempResponse> getTemperaturePerHour(@PathVariable Long voyagerId) {
-        return locationRepository.avgTempPerHour(voyagerId);
+    @DeleteMapping("/{voyagerId}")
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long voyagerId) {
+        return voyagerRepository.findById(voyagerId)
+                .map(voyager -> {
+                    voyagerRepository.delete(voyager);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(() -> new ResourceNotFoundException("Voyager not found with id " + voyagerId));
     }
 
 }

@@ -27,6 +27,7 @@ public class KnmiCollector {
 
     DataSource dataSource;
 
+//    @Bean
     public void collectData() {
         final String uri = "https://meteoserver.nl/api/historie.php?locatie=WIJK_AAN_ZEE&dag=20190901&key=ae7008ea6f";
         this.dataSource = new DataSource("KNMI", uri);
@@ -36,18 +37,25 @@ public class KnmiCollector {
 
         try {
             JSONObject booklist = new JSONObject(result);
-            System.out.println(booklist);
+//            System.out.println(booklist);
             JSONArray arr = booklist.getJSONArray("waarneming");
             for (int i = 0; i < arr.length(); i++) {
                 int rv = arr.getJSONObject(i).getInt("rv");
                 String datum = arr.getJSONObject(i).getString("datum");
                 Double temp = arr.getJSONObject(i).getDouble("temp");
-                int uur = arr.getJSONObject(i).getInt("uur")-1;
+                int uur = arr.getJSONObject(i).getInt("uur");
 
-                String datetime = datum + "0" + uur + "00";
+
+                String datetime;
+
+                if (String.valueOf(uur).length() > 1) {
+                    datetime = datum + uur + "00";
+                } else {
+                    datetime = datum + "0" + uur + "00";
+                }
+
                 Date date = new SimpleDateFormat("yyyyMMddHHmm").parse(datetime);
-
-//                System.out.println(rv +  " " + datetime);
+                System.out.println(datetime +  " " + date);
                 saveData(date, 4.603, 52.506, temp, rv);
             }
 
@@ -56,11 +64,10 @@ public class KnmiCollector {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void saveData(Date date, double lon, double lat, double temp, int rv)

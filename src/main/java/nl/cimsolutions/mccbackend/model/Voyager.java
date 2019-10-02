@@ -2,12 +2,14 @@ package nl.cimsolutions.mccbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "voyagers")
@@ -17,9 +19,18 @@ public class Voyager {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NaturalId
     private String name;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Collection<VoyagerSensors> sensors;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "voyagers")
+    private Set<Research> researches = new HashSet<>();
+
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="voyager_id")
     private List<Location> locations = new ArrayList<>();
@@ -89,5 +100,25 @@ public class Voyager {
 
     public void setInResearch(Boolean inResearch) {
         this.inResearch = inResearch;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Collection<VoyagerSensors> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(Collection<VoyagerSensors> sensors) {
+        this.sensors = sensors;
+    }
+
+    public Set<Research> getResearches() {
+        return researches;
+    }
+
+    public void setResearches(Set<Research> researches) {
+        this.researches = researches;
     }
 }

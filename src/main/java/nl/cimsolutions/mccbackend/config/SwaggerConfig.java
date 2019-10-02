@@ -33,6 +33,16 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public Docket api3() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("research")
+                .apiInfo(apiInfo())
+                .select()
+                .paths(PathSelectors.regex("/research.*"))
+                .build();
+    }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Demo API")
                 .description("Demo Q&A API application")
