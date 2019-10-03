@@ -2,7 +2,11 @@ package nl.cimsolutions.mccbackend.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -22,7 +26,7 @@ public class DataSource {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="data_source_id")
     private List<Location> locations = new ArrayList<>();
-
+    
     public DataSource(String name, String link) {
         this.name = name;
         this.link = link;

@@ -22,6 +22,9 @@ public class ResearchRequest {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date startDate;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
+    private Date endDate;
 
     private List<Integer> voyagerIds = new ArrayList<>();
 
@@ -55,6 +58,14 @@ public class ResearchRequest {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+    
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public List<Integer> getVoyagerIds() {
