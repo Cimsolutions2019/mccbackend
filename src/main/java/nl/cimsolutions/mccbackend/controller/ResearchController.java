@@ -10,6 +10,7 @@ import nl.cimsolutions.mccbackend.repository.LocationRepository;
 import nl.cimsolutions.mccbackend.repository.ResearchRepository;
 import nl.cimsolutions.mccbackend.repository.VoyagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,10 +37,25 @@ public class ResearchController {
         return researchRepository.findAll();
     }
 
-    @GetMapping("/{researchId}/voyagers}")
+    @GetMapping("/{researchId}")
+    public Optional<Research> getResearch(@PathVariable Long researchId) {
+        return researchRepository.findById(researchId);
+    }
+
+    
+    @GetMapping("/{researchId}/voyagers")
     public Set<Voyager> getVoyager(@PathVariable Long researchId) {
         Optional<Research> research = researchRepository.findById(researchId);
         return research.get().getVoyagers();
+    }
+    
+    @DeleteMapping("/{researchId}")
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long researchId) {
+        return researchRepository.findById(researchId)
+                .map(research -> {
+                	researchRepository.delete(research);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(() -> new ResourceNotFoundException("Research not found with id " + researchId));
     }
 
     @PostMapping("")
