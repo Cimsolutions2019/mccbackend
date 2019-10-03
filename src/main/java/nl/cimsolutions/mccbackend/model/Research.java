@@ -2,6 +2,7 @@ package nl.cimsolutions.mccbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.cimsolutions.mccbackend.model.types.ResearchStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +25,10 @@ public class Research extends AuditModel {
 
     @Column(columnDefinition = "text")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @NotBlank
+    private ResearchStatus status = ResearchStatus.CREATED;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -89,6 +94,14 @@ public class Research extends AuditModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public ResearchStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResearchStatus status) {
+        this.status = status;
     }
 
     public Date getStartDate() {
