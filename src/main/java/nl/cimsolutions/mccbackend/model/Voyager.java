@@ -19,7 +19,7 @@ public class Voyager extends AuditModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NaturalId
+    @NotBlank
     private String name;
 
     @ElementCollection
