@@ -1,5 +1,6 @@
 package nl.cimsolutions.mccbackend.controller;
 
+import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
 import nl.cimsolutions.mccbackend.model.Location;
 import nl.cimsolutions.mccbackend.model.Research;
@@ -56,6 +57,19 @@ public class ResearchController {
                 	researchRepository.delete(research);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Research not found with id " + researchId));
+    }
+    
+    @PutMapping("/{researchId}")
+    public Research research(@PathVariable Long researchId,
+                                   @Valid @RequestBody ResearchRequest research) {
+        return researchRepository.findById(researchId)
+                .map(res -> {
+                        res.setName(research.getName());
+                        res.setResearchArea(research.getResearchArea());
+                        res.setDescription(research.getDescription());
+                        res.setEndDate(research.getEndDate());
+                        return researchRepository.save(res);
+                   }).orElseThrow(() -> new ResourceNotFoundException("Research not found with id " + researchId));
     }
 
     @PostMapping("")
