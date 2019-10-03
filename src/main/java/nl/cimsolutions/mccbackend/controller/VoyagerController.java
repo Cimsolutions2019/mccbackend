@@ -1,5 +1,6 @@
 package nl.cimsolutions.mccbackend.controller;
 
+import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
 import nl.cimsolutions.mccbackend.model.Voyager;
 import nl.cimsolutions.mccbackend.payload.VoyagerTempResponse;
@@ -51,6 +52,21 @@ public class VoyagerController {
     @PostMapping("")
     public Voyager createVoyager(@Valid @RequestBody Voyager voyager) {
         return voyagerRepository.save(voyager);
+    }
+
+    @PutMapping("/{voyagerId}")
+    public Voyager updateVoyager(@PathVariable Long voyagerId,
+                                   @Valid @RequestBody Voyager voyager) {
+        return voyagerRepository.findById(voyagerId)
+                .map(voy -> {
+                    if (!voy.getInResearch()) {
+                        voy.setName(voyager.getName());
+                        voy.setSensors(voyager.getSensors());
+                        return voyagerRepository.save(voy);
+                    } else {
+                        throw new BadRequestException("Voyager can't be updated, because it's assigned to a research");
+                    }
+                   }).orElseThrow(() -> new ResourceNotFoundException("Voyager not found with id " + voyagerId));
     }
 
     @DeleteMapping("/{voyagerId}")
