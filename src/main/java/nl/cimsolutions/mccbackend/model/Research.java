@@ -27,7 +27,6 @@ public class Research extends AuditModel {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank
     private ResearchStatus status = ResearchStatus.CREATED;
 
     @Temporal(TemporalType.TIMESTAMP)
