@@ -30,13 +30,11 @@ public class Research extends AuditModel {
     @NotBlank
     private ResearchStatus status = ResearchStatus.CREATED;
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date startDate;
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(columnDefinition= "TIMESTAMP WITH TIME ZONE")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
@@ -56,10 +54,11 @@ public class Research extends AuditModel {
     @JoinColumn(name="research_id")
     private List<Location> locations = new ArrayList<>();
 
-    public Research(String name, String researchArea, String description) {
+    public Research(String name, String researchArea, String description, Date startDate) {
         this.name = name;
         this.researchArea = researchArea;
         this.description = description;
+        this.startDate = startDate;
     }
 
     public Research() {}

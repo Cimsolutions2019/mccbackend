@@ -1,8 +1,12 @@
 package nl.cimsolutions.mccbackend.payload.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ResearchRequest {
@@ -14,6 +18,10 @@ public class ResearchRequest {
 
     @NotBlank
     private String description;
+
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
+    private Date startDate;
 
     private List<Integer> voyagerIds = new ArrayList<>();
 
@@ -39,6 +47,14 @@ public class ResearchRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public List<Integer> getVoyagerIds() {
