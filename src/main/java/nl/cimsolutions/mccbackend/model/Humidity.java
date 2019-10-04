@@ -14,7 +14,7 @@ public class Humidity {
     private Long id;
 
     @NotNull
-    private int value;
+    private double value;
 
     public Humidity(int value) {
         this.value = value;
@@ -22,7 +22,7 @@ public class Humidity {
 
     public Humidity() {}
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
