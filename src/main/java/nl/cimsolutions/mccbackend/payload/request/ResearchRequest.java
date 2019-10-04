@@ -77,12 +77,12 @@ public class ResearchRequest {
     public void setVoyagerIds(List<Integer> voyagerIds) {
         this.voyagerIds = voyagerIds;
     }
-    
+
     public List<Integer> getDataSourceIds() {
         return dataSourceIds;
     }
 
-    public void setSourceIds(List<Integer> dataSourceIds) {
+    public void setDataSourceIds(List<Integer> dataSourceIds) {
         this.dataSourceIds = dataSourceIds;
     }
 }
