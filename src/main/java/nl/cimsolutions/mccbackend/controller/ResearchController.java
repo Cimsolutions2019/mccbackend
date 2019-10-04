@@ -95,6 +95,7 @@ public class ResearchController {
         for (int id: researchRequest.getVoyagerIds()) {
             Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(id));
             research.getVoyagers().add(voyager.get());
+            voyager.get().setInResearch(true);
         }
         for (int id: researchRequest.getDataSourceIds()) {
             Optional<DataSource> dataSource = dataSourceRepository.findById(Long.valueOf(id));
