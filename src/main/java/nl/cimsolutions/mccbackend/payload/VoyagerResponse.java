@@ -1,5 +1,6 @@
 package nl.cimsolutions.mccbackend.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import nl.cimsolutions.mccbackend.model.AuditModel;
 import nl.cimsolutions.mccbackend.model.Research;
 import nl.cimsolutions.mccbackend.model.Voyager;
@@ -24,8 +25,10 @@ public class VoyagerResponse {
 
     private Boolean inResearch = false;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date updatedAt;
 
     public VoyagerResponse(Voyager voyager) {

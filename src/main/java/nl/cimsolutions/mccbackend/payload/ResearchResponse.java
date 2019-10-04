@@ -33,8 +33,10 @@ public class ResearchResponse {
 
     private Set<DataSource> dataSources;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date updatedAt;
 
     public ResearchResponse(Research research) {
