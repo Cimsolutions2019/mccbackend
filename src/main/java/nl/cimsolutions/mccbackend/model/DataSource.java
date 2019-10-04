@@ -22,7 +22,8 @@ public class DataSource {
 
     @NotBlank
     private String link;
-
+    
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="data_source_id")
     private List<Location> locations = new ArrayList<>();
@@ -33,6 +34,10 @@ public class DataSource {
     }
 
     public DataSource() {}
+    
+    public Long getId() {
+    	return id;
+    }
 
     public String getName() {
         return name;

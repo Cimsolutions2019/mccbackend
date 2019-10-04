@@ -27,6 +27,8 @@ public class ResearchRequest {
     private Date endDate;
 
     private List<Integer> voyagerIds = new ArrayList<>();
+    
+    private List<Integer> dataSourceIds = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -74,5 +76,13 @@ public class ResearchRequest {
 
     public void setVoyagerIds(List<Integer> voyagerIds) {
         this.voyagerIds = voyagerIds;
+    }
+    
+    public List<Integer> getDataSourceIds() {
+        return dataSourceIds;
+    }
+
+    public void setSourceIds(List<Integer> dataSourceIds) {
+        this.dataSourceIds = dataSourceIds;
     }
 }

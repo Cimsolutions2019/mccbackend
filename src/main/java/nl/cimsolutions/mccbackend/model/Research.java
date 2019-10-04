@@ -138,7 +138,7 @@ public class Research extends AuditModel {
         return dataSources;
     }
 
-    public void setDataSource(Set<DataSource> dataSources) {
+    public void setDataSources(Set<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     

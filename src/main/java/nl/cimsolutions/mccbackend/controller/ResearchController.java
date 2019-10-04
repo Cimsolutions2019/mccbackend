@@ -8,6 +8,7 @@ import nl.cimsolutions.mccbackend.model.Research;
 import nl.cimsolutions.mccbackend.model.Voyager;
 import nl.cimsolutions.mccbackend.payload.MeasurementResponse;
 import nl.cimsolutions.mccbackend.payload.request.ResearchRequest;
+import nl.cimsolutions.mccbackend.repository.DataSourceRepository;
 import nl.cimsolutions.mccbackend.repository.LocationRepository;
 import nl.cimsolutions.mccbackend.repository.ResearchRepository;
 import nl.cimsolutions.mccbackend.repository.VoyagerRepository;
@@ -33,6 +34,9 @@ public class ResearchController {
 
     @Autowired
     LocationRepository locationRepository;
+    
+    @Autowired
+    DataSourceRepository dataSourceRepository;
 
     @GetMapping("")
     public List<Research> getResearches() {
@@ -85,9 +89,13 @@ public class ResearchController {
             Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(id));
             research.getVoyagers().add(voyager.get());
         }
+        for (int id: researchRequest.getDataSourceIds()) {
+            Optional<DataSource> dataSource = dataSourceRepository.findById(Long.valueOf(id));
+            research.getDataSources().add(dataSource.get());
+        }
         return researchRepository.save(research);
     }
-
+    
     @PostMapping("/{researchId}/voyager/{voyagerId}")
     public Location postResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId, @Valid @RequestBody Location location ) {
         Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(voyagerId));
