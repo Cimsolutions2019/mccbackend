@@ -49,19 +49,24 @@ public class ResearchController {
     }
     
     @GetMapping("/{researchId}/datasources")
-    public Set<DataSource> getDataSource(@PathVariable Long researchId) {
+    public Set<DataSource> getDataSources(@PathVariable Long researchId) {
         Optional<Research> research = researchRepository.findById(researchId);
         return research.get().getDataSources();
     }
     
     @GetMapping("/{researchId}/voyagers")
-    public Set<Voyager> getVoyager(@PathVariable Long researchId) {
+    public Set<Voyager> getResearchVoyagers(@PathVariable Long researchId) {
         Optional<Research> research = researchRepository.findById(researchId);
         return research.get().getVoyagers();
     }
+
+    @GetMapping("/{researchId}/voyager/{voyagerId}/measurements")
+    public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId) {
+        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId);
+    }
     
     @DeleteMapping("/{researchId}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable Long researchId) {
+    public ResponseEntity<?> deleteResearch(@PathVariable Long researchId) {
         return researchRepository.findById(researchId)
                 .map(research -> {
                 	researchRepository.delete(research);
@@ -70,7 +75,7 @@ public class ResearchController {
     }
     
     @PutMapping("/{researchId}")
-    public Research research(@PathVariable Long researchId,
+    public Research updateResearch(@PathVariable Long researchId,
                                    @Valid @RequestBody ResearchRequest research) {
         return researchRepository.findById(researchId)
                 .map(res -> {
