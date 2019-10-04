@@ -2,6 +2,7 @@ package nl.cimsolutions.mccbackend.controller;
 
 import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
+import nl.cimsolutions.mccbackend.model.DataSource;
 import nl.cimsolutions.mccbackend.model.Location;
 import nl.cimsolutions.mccbackend.model.Research;
 import nl.cimsolutions.mccbackend.model.Voyager;
@@ -42,7 +43,12 @@ public class ResearchController {
     public Optional<Research> getResearch(@PathVariable Long researchId) {
         return researchRepository.findById(researchId);
     }
-
+    
+    @GetMapping("/{researchId}/datasources")
+    public Set<DataSource> getDataSource(@PathVariable Long researchId) {
+        Optional<Research> research = researchRepository.findById(researchId);
+        return research.get().getDataSources();
+    }
     
     @GetMapping("/{researchId}/voyagers")
     public Set<Voyager> getVoyager(@PathVariable Long researchId) {

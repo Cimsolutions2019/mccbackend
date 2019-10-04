@@ -48,14 +48,13 @@ public class Research extends AuditModel {
             )
     private Set<Voyager> voyagers = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name="research_dataSource",
             joinColumns = @JoinColumn(name="research_id"),
             inverseJoinColumns = @JoinColumn(name="dataSource_id")
             )
-    private Set<DataSource> dataSource = new HashSet<>();
+    private Set<DataSource> dataSources = new HashSet<>();
     
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -135,12 +134,12 @@ public class Research extends AuditModel {
         this.voyagers = voyagers;
     }
     
-    public Set<DataSource> getDataSource() {
-        return dataSource;
+    public Set<DataSource> getDataSources() {
+        return dataSources;
     }
 
-    public void setDataSource(Set<DataSource> dataSource) {
-        this.dataSource = dataSource;
+    public void setDataSource(Set<DataSource> dataSources) {
+        this.dataSources = dataSources;
     }
     
     public List<Location> getLocations() {
