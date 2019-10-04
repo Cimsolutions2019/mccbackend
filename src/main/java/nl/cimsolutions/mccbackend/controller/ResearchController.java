@@ -7,6 +7,7 @@ import nl.cimsolutions.mccbackend.model.Location;
 import nl.cimsolutions.mccbackend.model.Research;
 import nl.cimsolutions.mccbackend.model.Voyager;
 import nl.cimsolutions.mccbackend.payload.MeasurementResponse;
+import nl.cimsolutions.mccbackend.payload.ResearchResponse;
 import nl.cimsolutions.mccbackend.payload.request.ResearchRequest;
 import nl.cimsolutions.mccbackend.repository.DataSourceRepository;
 import nl.cimsolutions.mccbackend.repository.LocationRepository;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/research")
@@ -39,8 +41,8 @@ public class ResearchController {
     DataSourceRepository dataSourceRepository;
 
     @GetMapping("")
-    public List<Research> getResearches() {
-        return researchRepository.findAll();
+    public List<ResearchResponse> getResearches() {
+        return researchRepository.findAll().stream().map(ResearchResponse::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{researchId}")

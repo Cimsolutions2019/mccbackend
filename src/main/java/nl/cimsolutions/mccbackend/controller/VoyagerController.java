@@ -3,6 +3,8 @@ package nl.cimsolutions.mccbackend.controller;
 import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
 import nl.cimsolutions.mccbackend.model.Voyager;
+import nl.cimsolutions.mccbackend.payload.ResearchResponse;
+import nl.cimsolutions.mccbackend.payload.VoyagerResponse;
 import nl.cimsolutions.mccbackend.payload.VoyagerTempResponse;
 import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
 import nl.cimsolutions.mccbackend.repository.LocationRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -28,8 +31,8 @@ public class VoyagerController {
     private LocationRepository locationRepository;
 
     @GetMapping("")
-    public List<Voyager> getVoyagers() {
-        return voyagerRepository.findAll();
+    public List<VoyagerResponse> getVoyagers() {
+        return voyagerRepository.findAll().stream().map(VoyagerResponse::new).collect(Collectors.toList());
     }
 
     @GetMapping("/Sensors")

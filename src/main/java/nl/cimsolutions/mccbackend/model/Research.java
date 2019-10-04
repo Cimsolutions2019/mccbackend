@@ -48,6 +48,7 @@ public class Research extends AuditModel {
             )
     private Set<Voyager> voyagers = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name="research_dataSource",

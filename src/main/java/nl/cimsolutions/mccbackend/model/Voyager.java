@@ -26,6 +26,7 @@ public class Voyager extends AuditModel {
     @Enumerated(EnumType.STRING)
     private Collection<VoyagerSensors> sensors;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "voyagers")
     private Set<Research> researches = new HashSet<>();
 
@@ -105,4 +106,5 @@ public class Voyager extends AuditModel {
     public void setResearches(Set<Research> researches) {
         this.researches = researches;
     }
+
 }
