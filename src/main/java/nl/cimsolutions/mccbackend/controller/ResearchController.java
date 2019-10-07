@@ -2,17 +2,12 @@ package nl.cimsolutions.mccbackend.controller;
 
 import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
-import nl.cimsolutions.mccbackend.model.DataSource;
-import nl.cimsolutions.mccbackend.model.Location;
-import nl.cimsolutions.mccbackend.model.Research;
-import nl.cimsolutions.mccbackend.model.Voyager;
+import nl.cimsolutions.mccbackend.model.*;
 import nl.cimsolutions.mccbackend.payload.MeasurementResponse;
 import nl.cimsolutions.mccbackend.payload.ResearchResponse;
+import nl.cimsolutions.mccbackend.payload.request.ResearchDataSourceRequest;
 import nl.cimsolutions.mccbackend.payload.request.ResearchRequest;
-import nl.cimsolutions.mccbackend.repository.DataSourceRepository;
-import nl.cimsolutions.mccbackend.repository.LocationRepository;
-import nl.cimsolutions.mccbackend.repository.ResearchRepository;
-import nl.cimsolutions.mccbackend.repository.VoyagerRepository;
+import nl.cimsolutions.mccbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +35,9 @@ public class ResearchController {
     @Autowired
     DataSourceRepository dataSourceRepository;
 
+    @Autowired
+    WeatherStationRepository weatherStationRepository;
+
     @GetMapping("")
     public List<ResearchResponse> getResearches() {
         return researchRepository.findAll().stream().map(ResearchResponse::new).collect(Collectors.toList());
@@ -51,7 +49,7 @@ public class ResearchController {
     }
     
     @GetMapping("/{researchId}/datasources")
-    public Set<DataSource> getDataSources(@PathVariable Long researchId) {
+    public Set<ResearchDataSource> getDataSources(@PathVariable Long researchId) {
         Optional<Research> research = researchRepository.findById(researchId);
         return research.get().getDataSources();
     }
@@ -91,7 +89,7 @@ public class ResearchController {
 
     @PostMapping("")
     public Research createResearch(@Valid @RequestBody ResearchRequest researchRequest) {
-        Research research = new Research(researchRequest.getName(), researchRequest.getResearchArea(), researchRequest.getDescription(), researchRequest.getStartDate());
+        Research research = new Research(researchRequest.getName(), researchRequest.getResearchArea(), researchRequest.getDescription(), researchRequest.getStartDate(), researchRequest.getEndDate());
         for (int id: researchRequest.getVoyagerIds()) {
             Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(id));
             if (!voyager.get().getInResearch()) {
@@ -101,10 +99,17 @@ public class ResearchController {
                 throw new BadRequestException("Voyager is already assigned to an research");
             }
         }
-        for (int id: researchRequest.getDataSourceIds()) {
-            Optional<DataSource> dataSource = dataSourceRepository.findById(Long.valueOf(id));
-            research.getDataSources().add(dataSource.get());
+
+        for (ResearchDataSourceRequest dataSourceRequest: researchRequest.getResearchDataSourceRequest()) {
+            Optional<DataSource> dataSource = dataSourceRepository.findById(Long.valueOf(dataSourceRequest.getDataSourceId()));
+            ResearchDataSource researchDataSource = new ResearchDataSource(research, dataSource.get());
+            for (int id: dataSourceRequest.getWeatherStationsId()) {
+                Optional<WeatherStation> weatherStation = weatherStationRepository.findById(Long.valueOf(id));
+                researchDataSource.getWeatherStations().add(weatherStation.get());
+            }
+            research.getDataSources().add(researchDataSource);
         }
+
         return researchRepository.save(research);
     }
     
@@ -113,7 +118,7 @@ public class ResearchController {
         Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(voyagerId));
         Optional<Research> research = researchRepository.findById(Long.valueOf(researchId));
         Location savedLocation = locationRepository.save(location);
-        voyager.get().addLocation(savedLocation);
+        voyager.get().getLocations().add(savedLocation);
         research.get().getLocations().add(savedLocation);
         voyagerRepository.save(voyager.get());
         researchRepository.save(research.get());

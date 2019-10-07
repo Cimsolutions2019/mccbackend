@@ -2,11 +2,17 @@ package nl.cimsolutions.mccbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "location")
 public class Location {
@@ -39,51 +45,5 @@ public class Location {
         this.longitude = longitude;
         this.latitude = latitude;
         this.time = time;
-    }
-
-    public Location() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public Temperature getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Temperature temperature) {
-        this.temperature = temperature;
-    }
-
-    public Humidity getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(Humidity humidity) {
-        this.humidity = humidity;
     }
 }

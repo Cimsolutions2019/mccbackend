@@ -1,9 +1,13 @@
 package nl.cimsolutions.mccbackend.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
 public class VoyagerTempResponse {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
@@ -16,20 +20,4 @@ public class VoyagerTempResponse {
         this.temp_value = temp_value;
     }
 
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public double getTemp_value() {
-        return temp_value;
-    }
-
-    public void setTemp_value(double temp_value) {
-        this.temp_value = temp_value;
-    }
 }

@@ -4,11 +4,19 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "data_sources")
 public class DataSource {
@@ -22,44 +30,24 @@ public class DataSource {
 
     @NotBlank
     private String link;
-    
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="data_source_id")
+    @JoinColumn(name = "data_source_id")
     private List<Location> locations = new ArrayList<>();
-    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "dataSource", cascade = CascadeType.ALL)
+    private Set<ResearchDataSource> researches = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "data_source_id")
+    private List<WeatherStation> weatherStations = new ArrayList<>();
+
     public DataSource(String name, String link) {
         this.name = name;
         this.link = link;
     }
 
-    public DataSource() {}
-    
-    public Long getId() {
-    	return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
 }

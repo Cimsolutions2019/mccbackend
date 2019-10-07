@@ -2,6 +2,9 @@ package nl.cimsolutions.mccbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
 import org.hibernate.annotations.NaturalId;
 
@@ -11,6 +14,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "voyagers")
 public class Voyager extends AuditModel {
@@ -43,68 +49,6 @@ public class Voyager extends AuditModel {
 
     public Voyager(String name) {
         this.name = name;
-    }
-
-    public Voyager() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
-
-    public void addLocation(Location location) {
-        this.locations.add(location);
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Boolean getInResearch() {
-        return inResearch;
-    }
-
-    public void setInResearch(Boolean inResearch) {
-        this.inResearch = inResearch;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Collection<VoyagerSensors> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(Collection<VoyagerSensors> sensors) {
-        this.sensors = sensors;
-    }
-
-    public Set<Research> getResearches() {
-        return researches;
-    }
-
-    public void setResearches(Set<Research> researches) {
-        this.researches = researches;
     }
 
 }
