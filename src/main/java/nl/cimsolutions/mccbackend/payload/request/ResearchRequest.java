@@ -20,6 +20,9 @@ public class ResearchRequest {
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String owner;
+
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date startDate;

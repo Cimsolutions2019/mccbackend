@@ -89,7 +89,8 @@ public class ResearchController {
 
     @PostMapping("")
     public Research createResearch(@Valid @RequestBody ResearchRequest researchRequest) {
-        Research research = new Research(researchRequest.getName(), researchRequest.getResearchArea(), researchRequest.getDescription(), researchRequest.getStartDate(), researchRequest.getEndDate());
+        Research research = new Research(researchRequest.getName(), researchRequest.getResearchArea(), researchRequest.getDescription(), researchRequest.getStartDate(), researchRequest.getEndDate(),
+                researchRequest.getOwner());
         for (int id: researchRequest.getVoyagerIds()) {
             Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(id));
             if (!voyager.get().getInResearch()) {

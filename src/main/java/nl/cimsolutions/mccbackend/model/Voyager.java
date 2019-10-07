@@ -28,9 +28,6 @@ public class Voyager extends AuditModel {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String owner;
-
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private Collection<VoyagerSensors> sensors;
