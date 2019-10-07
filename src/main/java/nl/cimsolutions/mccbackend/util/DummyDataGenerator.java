@@ -90,7 +90,7 @@ public class DummyDataGenerator {
         Temperature temperature = new Temperature(double_temperature);
 
         location.setTemperature(temperature);
-        voyager.addLocation(location);
+//        voyager.addLocation(location);
     }
 
     private static List<String> readFile(String filename)

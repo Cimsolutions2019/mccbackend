@@ -32,4 +32,10 @@ public class WeatherStation {
     @NotNull
     private double latitude;
 
+    public WeatherStation(String name, String stationNumber, double longitude, double latitude) {
+        this.name = name;
+        this.stationNumber = stationNumber;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 }
