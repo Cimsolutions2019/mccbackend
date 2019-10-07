@@ -25,6 +25,8 @@ public class ResearchResponse {
 
     private ResearchStatus status = ResearchStatus.CREATED;
 
+    private String owner;
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date startDate;
 
@@ -55,6 +57,7 @@ public class ResearchResponse {
         }
         this.createdAt = research.getCreatedAt();
         this.updatedAt = research.getUpdatedAt();
+        this.owner = research.getOwner();
     }
 
 }
