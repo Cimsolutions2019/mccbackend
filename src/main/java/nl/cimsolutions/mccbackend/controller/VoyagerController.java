@@ -64,6 +64,7 @@ public class VoyagerController {
                 .map(voy -> {
                     if (!voy.getInResearch()) {
                         voy.setName(voyager.getName());
+                        voy.getSensors().clear();
                         voy.setSensors(voyager.getSensors());
                         return voyagerRepository.save(voy);
                     } else {
