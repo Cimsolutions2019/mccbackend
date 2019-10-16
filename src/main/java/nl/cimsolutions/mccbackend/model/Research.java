@@ -2,15 +2,14 @@ package nl.cimsolutions.mccbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.cimsolutions.mccbackend.model.types.ResearchStatus;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Getter
@@ -25,6 +24,7 @@ public class Research extends AuditModel {
     private Long id;
 
     @NotBlank
+    @NaturalId
     private String name;
 
     @NotBlank
