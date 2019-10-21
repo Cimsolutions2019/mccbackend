@@ -30,12 +30,12 @@ public class VoyagerController {
     @Autowired
     private LocationRepository locationRepository;
 
-    @GetMapping("")
+    @GetMapping
     public List<VoyagerResponse> getVoyagers() {
         return voyagerRepository.findAll().stream().map(VoyagerResponse::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/Sensors")
+    @GetMapping("/sensors")
     public VoyagerSensors[] getAllVoyagerSensors() {
         VoyagerSensors[] allVoyagerSensors = VoyagerSensors.values();
         return allVoyagerSensors;
@@ -52,7 +52,7 @@ public class VoyagerController {
         return locationRepository.avgTempPerHour(voyagerId);
     }
 
-    @PostMapping("")
+    @PostMapping
     public Voyager createVoyager(@Valid @RequestBody Voyager voyager) {
         return voyagerRepository.save(voyager);
     }
