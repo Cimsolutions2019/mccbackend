@@ -3,16 +3,22 @@ package nl.cimsolutions.mccbackend.controller;
 import nl.cimsolutions.mccbackend.exception.BadRequestException;
 import nl.cimsolutions.mccbackend.exception.ResourceNotFoundException;
 import nl.cimsolutions.mccbackend.model.*;
+import nl.cimsolutions.mccbackend.model.types.ResearchTypes;
+import nl.cimsolutions.mccbackend.model.types.SensorIntervals;
+import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
 import nl.cimsolutions.mccbackend.payload.MeasurementResponse;
 import nl.cimsolutions.mccbackend.payload.ResearchResponse;
+import nl.cimsolutions.mccbackend.payload.VoyagerTempResponse;
 import nl.cimsolutions.mccbackend.payload.request.ResearchDataSourceRequest;
 import nl.cimsolutions.mccbackend.payload.request.ResearchRequest;
 import nl.cimsolutions.mccbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,17 +66,42 @@ public class ResearchController {
         return research.get().getVoyagers();
     }
 
-    @GetMapping("/{researchId}/voyager/{voyagerId}/measurements")
-    public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId) {
-        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId);
+    @GetMapping("/intervals")
+    public SensorIntervals[] getAllSensorIntervals() {
+        SensorIntervals[] allSensorIntervals = SensorIntervals.values();
+        return allSensorIntervals;
     }
-    
+
+    @GetMapping("/types")
+    public ResearchTypes[] getAllResearchTypes() {
+        ResearchTypes[] allSensorIntervals = ResearchTypes.values();
+        return allSensorIntervals;
+    }
+
+    @GetMapping("/{researchId}/voyager/{voyagerId}/measurements")
+    public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+        System.out.println(date);
+        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId, date);
+    }
+
+    @GetMapping("/{researchId}/voyager/{voyagerId}/measurements/temperature")
+    public List<VoyagerTempResponse> getResearchVoyager24HTemperatureMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
+                                                                                  @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+        return locationRepository.avgTempPerHourPerDay(researchId, voyagerId, date);
+    }
+
+    @GetMapping("/{researchId}/datasource/{dataSourceId}/measurements")
+    public List<Location> getResearchDataSourceMeasurements(@PathVariable Long researchId, @PathVariable Long dataSourceId) {
+        return locationRepository.findByResearchIdAndDataSourceId(researchId, dataSourceId);
+    }
+
     @DeleteMapping("/{researchId}")
     public ResponseEntity<?> deleteResearch(@PathVariable Long researchId) {
         return researchRepository.findById(researchId)
                 .map(research -> {
                     research.getVoyagers().stream().forEach(voy -> {
                         voy.setInResearch(false);
+
                             });
                 	researchRepository.delete(research);
                     return ResponseEntity.ok().build();
@@ -93,7 +124,7 @@ public class ResearchController {
     @PostMapping("")
     public Research createResearch(@Valid @RequestBody ResearchRequest researchRequest) {
         Research research = new Research(researchRequest.getName(), researchRequest.getResearchArea(), researchRequest.getDescription(),
-                researchRequest.getStartDate(), researchRequest.getEndDate(), researchRequest.getOwner());
+                researchRequest.getStartDate(), researchRequest.getEndDate(), researchRequest.getOwner(), researchRequest.getResearchType());
         for (int id: researchRequest.getVoyagerIds()) {
             Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(id));
             if (!voyager.get().getInResearch()) {
