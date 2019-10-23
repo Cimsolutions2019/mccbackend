@@ -11,6 +11,7 @@ import nl.cimsolutions.mccbackend.payload.ResearchResponse;
 import nl.cimsolutions.mccbackend.payload.VoyagerTempResponse;
 import nl.cimsolutions.mccbackend.payload.request.ResearchDataSourceRequest;
 import nl.cimsolutions.mccbackend.payload.request.ResearchRequest;
+import nl.cimsolutions.mccbackend.payload.request.SensorIntervalRequest;
 import nl.cimsolutions.mccbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -143,6 +144,11 @@ public class ResearchController {
                 researchDataSource.getWeatherStations().add(weatherStation.get());
             }
             research.getDataSources().add(researchDataSource);
+        }
+
+        for (SensorIntervalRequest sensorIntervalRequest: researchRequest.getSensorIntervals()) {
+            SensorInterval sensorInterval = new SensorInterval(sensorIntervalRequest.getVoyagerSensor(), sensorIntervalRequest.getSensorInterval());
+             research.getSensorIntervals().add(sensorInterval);
         }
 
         return researchRepository.save(research);

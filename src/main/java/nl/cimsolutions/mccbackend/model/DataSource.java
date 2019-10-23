@@ -40,6 +40,7 @@ public class DataSource {
     @OneToMany(mappedBy = "dataSource", cascade = CascadeType.ALL)
     private Set<ResearchDataSource> researches = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "data_source_id")
     private List<WeatherStation> weatherStations = new ArrayList<>();

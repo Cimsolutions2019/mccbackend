@@ -10,6 +10,7 @@ import nl.cimsolutions.mccbackend.model.types.ResearchTypes;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,8 @@ public class ResearchResponse {
 
     private ResearchTypes researchType;
 
+    private List<SensorInterval> sensorIntervals;
+
     public ResearchResponse(Research research) {
         this.id = research.getId();
         this.name = research.getName();
@@ -62,6 +65,7 @@ public class ResearchResponse {
         this.updatedAt = research.getUpdatedAt();
         this.owner = research.getOwner();
         this.researchType = research.getResearchType();
+        this.sensorIntervals = research.getSensorIntervals();
     }
 
 }

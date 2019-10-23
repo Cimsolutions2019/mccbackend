@@ -37,4 +37,6 @@ public class ResearchRequest {
     private Set<Integer> voyagerIds = new HashSet<>();
 
     private List<ResearchDataSourceRequest>  researchDataSourceRequest = new ArrayList<>();
+
+    private List<SensorIntervalRequest>  sensorIntervals = new ArrayList<>();
 }

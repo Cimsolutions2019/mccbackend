@@ -32,6 +32,9 @@ public class WeatherStation {
     @NotNull
     private double latitude;
 
+    @NotNull
+    private double altitude;
+
     public WeatherStation(String name, String stationNumber, double longitude, double latitude) {
         this.name = name;
         this.stationNumber = stationNumber;
