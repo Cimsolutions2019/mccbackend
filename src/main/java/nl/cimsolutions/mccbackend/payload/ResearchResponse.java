@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.cimsolutions.mccbackend.model.*;
 import nl.cimsolutions.mccbackend.model.types.ResearchStatus;
+import nl.cimsolutions.mccbackend.model.types.ResearchTypes;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -43,6 +44,8 @@ public class ResearchResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date updatedAt;
 
+    private ResearchTypes researchType;
+
     public ResearchResponse(Research research) {
         this.id = research.getId();
         this.name = research.getName();
@@ -58,6 +61,7 @@ public class ResearchResponse {
         this.createdAt = research.getCreatedAt();
         this.updatedAt = research.getUpdatedAt();
         this.owner = research.getOwner();
+        this.researchType = research.getResearchType();
     }
 
 }
