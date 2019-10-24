@@ -8,6 +8,8 @@ import nl.cimsolutions.mccbackend.model.types.SensorIntervals;
 import nl.cimsolutions.mccbackend.model.types.VoyagerSensors;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,5 +21,9 @@ public class SensorIntervalRequest {
 
     @NotNull
     private SensorIntervals sensorInterval;
+
+    @NotNull
+    private Long voyagerId;
+
 
 }

@@ -148,7 +148,9 @@ public class ResearchController {
 
         for (SensorIntervalRequest sensorIntervalRequest: researchRequest.getSensorIntervals()) {
             SensorInterval sensorInterval = new SensorInterval(sensorIntervalRequest.getVoyagerSensor(), sensorIntervalRequest.getSensorInterval());
-             research.getSensorIntervals().add(sensorInterval);
+            Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(sensorIntervalRequest.getVoyagerId()));
+            sensorInterval.setVoyager(voyager.get());
+            research.getSensorIntervals().add(sensorInterval);
         }
 
         return researchRepository.save(research);
