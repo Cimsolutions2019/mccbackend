@@ -1,20 +1,22 @@
 package nl.cimsolutions.mccbackend.controller;
 
 import nl.cimsolutions.mccbackend.model.DataSource;
-import nl.cimsolutions.mccbackend.model.Research;
-import nl.cimsolutions.mccbackend.model.Voyager;
 import nl.cimsolutions.mccbackend.model.WeatherStation;
+import nl.cimsolutions.mccbackend.payload.DataSourceMeasurementResponse;
 import nl.cimsolutions.mccbackend.payload.DataSourceResponse;
-import nl.cimsolutions.mccbackend.payload.ResearchResponse;
+import nl.cimsolutions.mccbackend.payload.WeatherStationResponse;
 import nl.cimsolutions.mccbackend.repository.DataSourceRepository;
+import nl.cimsolutions.mccbackend.repository.DataSourceMartRepository;
 import nl.cimsolutions.mccbackend.repository.WeatherStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/datasource")
@@ -27,22 +29,34 @@ public class DataSourceController {
     @Autowired
     WeatherStationRepository weatherStationRepository;
 
-    @GetMapping("")
-    public List<DataSource> getDataSource(Pageable pageable) {
+    @Autowired
+    DataSourceMartRepository dataSourceMartRepository;
+
+    @GetMapping
+    public List<DataSource> getDataSource() {
         return dataSourceRepository.findAll();
     }
 
-    @GetMapping("/{dataSourceId}")
+    @GetMapping("/{dataSourceId}/measurements")
+    public List<DataSourceMeasurementResponse> getDataSourceMeasurements( @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
+                                                                          @PathVariable Long dataSourceId, @RequestParam("weatherStationNumber") String weatherStationNumber,
+                                                                          @RequestParam("sensor") String sensor) {
+        return dataSourceMartRepository.findAllData(date, sensor.toLowerCase(), weatherStationNumber, dataSourceId);
+    }
+
+    @GetMapping("/{dataSourceId}/weatherstations")
     public Optional<DataSourceResponse> getResearch(@PathVariable Long dataSourceId) {
         return dataSourceRepository.findById(dataSourceId).map(DataSourceResponse::new);
     }
 
-    @PostMapping("/weatherStation")
-    public WeatherStation createDataSource(@Valid @RequestBody WeatherStation dataSource) {
-        return weatherStationRepository.save(dataSource);
+    @GetMapping("/{dataSourceId}/weatherstations/distance")
+    public List<WeatherStationResponse> getWeatherStationsAndDistance(@PathVariable Long dataSourceId, @RequestParam double lon, @RequestParam double lat) {
+        return weatherStationRepository.findWeatherStationsByDataSource(dataSourceId).stream()
+                .map((WeatherStation weatherStation) -> new WeatherStationResponse(weatherStation, lon, lat))
+                .collect(Collectors.toList());
     }
 
-    @PostMapping("")
+    @PostMapping
     public DataSource createDataSource(@Valid @RequestBody DataSource dataSource) {
         return dataSourceRepository.save(dataSource);
     }

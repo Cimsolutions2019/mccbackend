@@ -45,6 +45,7 @@ public class ResearchController {
     @Autowired
     WeatherStationRepository weatherStationRepository;
 
+
     @GetMapping("")
     public List<ResearchResponse> getResearches() {
         return researchRepository.findAll().stream().map(ResearchResponse::new).collect(Collectors.toList());
@@ -80,16 +81,38 @@ public class ResearchController {
     }
 
     @GetMapping("/{researchId}/voyager/{voyagerId}/measurements")
-    public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
-        System.out.println(date);
+    public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
+                                                         @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+
         return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId, date);
     }
 
     @GetMapping("/{researchId}/voyager/{voyagerId}/measurements/temperature")
-    public List<VoyagerTempResponse> getResearchVoyager24HTemperatureMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
-                                                                                  @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
-        return locationRepository.avgTempPerHourPerDay(researchId, voyagerId, date);
+    public List<VoyagerTempResponse> getResearchVoyagerTemperatureMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
+                                                                               @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
+                                                                               @RequestParam("date2") @DateTimeFormat(pattern="yyyy-MM-dd") Date date2,
+                                                                               @RequestParam("interval") SensorIntervals sensorInterval) {
+        switch (sensorInterval) {
+            case MINUTELY:
+                return locationRepository.tempPerMinutePerDay(voyagerId, researchId, date, date2);
+            default:
+                return locationRepository.avgTempPerHourPerDay(voyagerId, researchId, date, date2);
+        }
     }
+
+    @GetMapping("/{researchId}/voyager/{voyagerId}/measurements/humidity")
+    public List<VoyagerTempResponse> getResearchVoyagerHumidityMesaurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
+                                                                            @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
+                                                                            @RequestParam("date2") @DateTimeFormat(pattern="yyyy-MM-dd") Date date2,
+                                                                            @RequestParam("interval") SensorIntervals sensorInterval) {
+        switch (sensorInterval) {
+            case MINUTELY:
+                return locationRepository.humidityPerMinutePerDay(voyagerId, researchId, date, date2);
+            default:
+                return locationRepository.avgHumidityPerHourPerDay(voyagerId, researchId, date, date2);
+        }
+    }
+
 
     @GetMapping("/{researchId}/datasource/{dataSourceId}/measurements")
     public List<Location> getResearchDataSourceMeasurements(@PathVariable Long researchId, @PathVariable Long dataSourceId) {
@@ -148,8 +171,6 @@ public class ResearchController {
 
         for (SensorIntervalRequest sensorIntervalRequest: researchRequest.getSensorIntervals()) {
             SensorInterval sensorInterval = new SensorInterval(sensorIntervalRequest.getVoyagerSensor(), sensorIntervalRequest.getSensorInterval());
-            Optional<Voyager> voyager = voyagerRepository.findById(Long.valueOf(sensorIntervalRequest.getVoyagerId()));
-            sensorInterval.setVoyager(voyager.get());
             research.getSensorIntervals().add(sensorInterval);
         }
 

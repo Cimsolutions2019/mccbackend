@@ -8,16 +8,15 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class VoyagerTempResponse {
+public class DataSourceMeasurementResponse {
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date time;
 
-    private double value;
+    private String value;
 
-    public VoyagerTempResponse(Date time, double value) {
+    public DataSourceMeasurementResponse(Date time, String value) {
         this.time = time;
         this.value = value;
     }
-
 }

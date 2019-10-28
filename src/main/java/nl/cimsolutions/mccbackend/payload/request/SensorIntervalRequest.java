@@ -22,8 +22,4 @@ public class SensorIntervalRequest {
     @NotNull
     private SensorIntervals sensorInterval;
 
-    @NotNull
-    private Long voyagerId;
-
-
 }

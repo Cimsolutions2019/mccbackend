@@ -47,10 +47,10 @@ public class VoyagerController {
     }
 
     //sprint 1 demo
-    @GetMapping("/{voyagerId}/temperature")
-    public List<VoyagerTempResponse> getTemperaturePerHour(@PathVariable Long voyagerId) {
-        return locationRepository.avgTempPerHour(voyagerId);
-    }
+//    @GetMapping("/{voyagerId}/temperature")
+//    public List<VoyagerTempResponse> getTemperaturePerHour(@PathVariable Long voyagerId) {
+//        return locationRepository.avgTempPerHour(voyagerId);
+//    }
 
     @PostMapping
     public Voyager createVoyager(@Valid @RequestBody Voyager voyager) {
