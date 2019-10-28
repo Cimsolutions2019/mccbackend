@@ -26,10 +26,6 @@ public class SensorInterval {
     @Enumerated(EnumType.STRING)
     private SensorIntervals sensorInterval;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voyager_id")
-    private Voyager voyager;
-
     public SensorInterval(VoyagerSensors voyagerSensors, SensorIntervals sensorInterval) {
         this.voyagerSensors = voyagerSensors;
         this.sensorInterval = sensorInterval;
