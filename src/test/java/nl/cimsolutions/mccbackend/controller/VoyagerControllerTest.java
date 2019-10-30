@@ -30,20 +30,19 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = VoyagerController.class)
+//@RunWith(SpringRunner.class)
+//@WebMvcTest(controllers = VoyagerController.class)
 public class VoyagerControllerTest {
 
-    private MockMvc mockMvc;
+//    private MockMvc mockMvc;
 
-    @Mock
-    private DistanceCalculator distanceCalculator;
+//    @Mock
+//    private DistanceCalculator distanceCalculator;
+//
+//    @MockBean
+//    private VoyagerRepository voyagerRepository;
 
-    @MockBean
-    private VoyagerRepository voyagerRepository;
-
-    @Test
-    public void findAll() throws Exception {
+//    public void findAll() throws Exception {
 
 //        this.mockMvc.perform(get("/voyagers/sensors"))
 //                .andExpect(status().isOk());
@@ -51,7 +50,7 @@ public class VoyagerControllerTest {
 //
 //        when(mock.testDistance()).thenReturn(2);
 //        assertEquals(2, mock.testDistance());
-    }
+//    }
 
 
 }
