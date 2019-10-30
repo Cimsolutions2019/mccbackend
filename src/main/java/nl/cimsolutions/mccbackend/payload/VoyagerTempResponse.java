@@ -17,8 +17,9 @@ public class VoyagerTempResponse {
     private double value;
 
     public VoyagerTempResponse(Date time, double value) {
+        int scale = (int) Math.pow(10, 1);
         this.name = time;
-        this.value = value;
+        this.value = Math.round(value * scale) / scale ;
     }
 
 }

@@ -6,11 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
-@Table(name = "dim_com")
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@Entity
+//@Table(name = "dim_com")
 public class DimCom {
 
     @Id

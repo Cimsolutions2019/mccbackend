@@ -7,11 +7,11 @@ import nl.cimsolutions.mccbackend.model.Temperature;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
-@Table(name = "fact_source")
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@Entity
+//@Table(name = "fact_source")
 public class FactSource {
 
     @Id

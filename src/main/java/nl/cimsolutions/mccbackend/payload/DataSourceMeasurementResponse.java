@@ -17,6 +17,6 @@ public class DataSourceMeasurementResponse {
 
     public DataSourceMeasurementResponse(Date time, double value) {
         this.time = time;
-        this.value = value;
+        this.value = Math.round(value) / 10.0;
     }
 }

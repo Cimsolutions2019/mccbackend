@@ -8,11 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
-@Table(name = "dim_loc")
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@Entity
+//@Table(name = "dim_loc")
 public class DimLoc {
 
     @Id
