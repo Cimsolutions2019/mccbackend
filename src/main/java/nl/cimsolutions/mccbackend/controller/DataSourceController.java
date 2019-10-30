@@ -2,6 +2,7 @@ package nl.cimsolutions.mccbackend.controller;
 
 import nl.cimsolutions.mccbackend.model.DataSource;
 import nl.cimsolutions.mccbackend.model.WeatherStation;
+import nl.cimsolutions.mccbackend.model.types.SensorIntervals;
 import nl.cimsolutions.mccbackend.payload.DataSourceMeasurementResponse;
 import nl.cimsolutions.mccbackend.payload.DataSourceResponse;
 import nl.cimsolutions.mccbackend.payload.WeatherStationResponse;
@@ -39,9 +40,17 @@ public class DataSourceController {
 
     @GetMapping("/{dataSourceId}/measurements")
     public List<DataSourceMeasurementResponse> getDataSourceMeasurements( @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
-                                                                          @PathVariable Long dataSourceId, @RequestParam("weatherStationNumber") String weatherStationNumber,
-                                                                          @RequestParam("sensor") String sensor) {
-        return dataSourceMartRepository.findAllData(date, sensor.toLowerCase(), weatherStationNumber, dataSourceId);
+                                                                          @RequestParam("enddate") @DateTimeFormat(pattern="yyyy-MM-dd") Date date2,
+                                                                          @PathVariable Long dataSourceId,
+                                                                          @RequestParam("weatherStationNumber") String weatherStationNumber,
+                                                                          @RequestParam("sensor") String sensor,
+                                                                          @RequestParam("interval") SensorIntervals sensorInterval) {
+        switch (sensorInterval) {
+            case DAY:
+                return dataSourceMartRepository.findavgDataPerDay(date, date2, sensor.toLowerCase(),  dataSourceId);
+            default:
+                return dataSourceMartRepository.findavgDataPerHour(date, date2, sensor.toLowerCase(),  dataSourceId);
+        }
     }
 
     @GetMapping("/{dataSourceId}/weatherstations")

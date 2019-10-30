@@ -82,9 +82,10 @@ public class ResearchController {
 
     @GetMapping("/{researchId}/voyager/{voyagerId}/measurements")
     public List<Location> getResearchVoyagerMeasurements(@PathVariable Long researchId, @PathVariable Long voyagerId,
-                                                         @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+                                                         @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
+                                                         @RequestParam("date2") @DateTimeFormat(pattern="yyyy-MM-dd") Date date2) {
 
-        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId, date);
+        return locationRepository.findByResearchIdAndVoyagerId(researchId, voyagerId, date, date2);
     }
 
     @GetMapping("/{researchId}/voyager/{voyagerId}/measurements/temperature")
@@ -95,6 +96,8 @@ public class ResearchController {
         switch (sensorInterval) {
             case MINUTELY:
                 return locationRepository.tempPerMinutePerDay(voyagerId, researchId, date, date2);
+            case DAY:
+                return locationRepository.avgTempPerDay(voyagerId, researchId, date, date2);
             default:
                 return locationRepository.avgTempPerHourPerDay(voyagerId, researchId, date, date2);
         }
@@ -108,6 +111,8 @@ public class ResearchController {
         switch (sensorInterval) {
             case MINUTELY:
                 return locationRepository.humidityPerMinutePerDay(voyagerId, researchId, date, date2);
+            case DAY:
+                return locationRepository.avgHumidityPerDay(voyagerId, researchId, date, date2);
             default:
                 return locationRepository.avgHumidityPerHourPerDay(voyagerId, researchId, date, date2);
         }

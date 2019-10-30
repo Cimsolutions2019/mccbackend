@@ -10,13 +10,14 @@ import java.util.Date;
 @Setter
 public class VoyagerTempResponse {
 
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
-    private Date time;
+    private Date name;
 
     private double value;
 
     public VoyagerTempResponse(Date time, double value) {
-        this.time = time;
+        this.name = time;
         this.value = value;
     }
 

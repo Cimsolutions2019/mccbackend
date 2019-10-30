@@ -16,23 +16,22 @@ import java.util.Date;
 public class DimTime {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Europe/Madrid")
     private Date time;
 
-    private int year;
+    private String year;
 
-    private int month;
+    private String month;
 
-    private int day;
+    private String day;
 
-    private int hour;
+    private String hour;
 
-    private int minute;
+    private String minute;
 
-    private int second;
+    private String second;
 
 }

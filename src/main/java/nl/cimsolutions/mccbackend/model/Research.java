@@ -71,7 +71,6 @@ public class Research extends AuditModel {
     @JoinColumn(name="research_id")
     private List<Location> locations = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="research_id")
     private List<SensorInterval> sensorIntervals = new ArrayList<>();

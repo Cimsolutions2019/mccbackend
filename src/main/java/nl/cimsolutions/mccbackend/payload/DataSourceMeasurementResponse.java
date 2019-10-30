@@ -13,9 +13,9 @@ public class DataSourceMeasurementResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date time;
 
-    private String value;
+    private double value;
 
-    public DataSourceMeasurementResponse(Date time, String value) {
+    public DataSourceMeasurementResponse(Date time, double value) {
         this.time = time;
         this.value = value;
     }

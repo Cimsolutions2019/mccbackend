@@ -1,5 +1,6 @@
 package nl.cimsolutions.mccbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Entity
 public class ResearchDataSource implements Serializable {
 
+    @JsonIgnore
     @Id
     @ManyToOne
     @JoinColumn
@@ -35,4 +37,6 @@ public class ResearchDataSource implements Serializable {
         this.research = research;
         this.dataSource = dataSource;
     }
+
+
 }

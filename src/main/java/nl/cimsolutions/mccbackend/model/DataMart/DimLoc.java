@@ -21,17 +21,17 @@ public class DimLoc {
     private String name;
 
     @Column(
-            columnDefinition = "NUMERIC(19,0)"
+            columnDefinition = "text"
     )
     private double longitude;
 
     @Column(
-            columnDefinition = "NUMERIC(19,0)"
+            columnDefinition = "text"
     )
     private double latitude;
 
     @Column(
-            columnDefinition = "NUMERIC(19,0)"
+            columnDefinition = "text"
     )
     private double altitude;
 

@@ -16,6 +16,6 @@ public class DimCom {
     @Id
     private long id;
 
-    private String component;
+    private String name;
 
 }
